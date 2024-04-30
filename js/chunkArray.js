@@ -14,10 +14,6 @@
                 u++;
             }
         }
-        array.forEach(element => {
-            console.log(element)
-        });
-
             return {
                 next: function () {
                 return nextIndex < array.length
