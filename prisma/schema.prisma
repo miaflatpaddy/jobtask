@@ -16,17 +16,24 @@ model Product {
   sku String @id @default(uuid()) @db.Uuid
   title String?
   category Category[]
-  warehouse_id String
-  warehouse Warehouse @relation(fields: [warehouse_id], references: [uuid])
-  count Int
+  inWarehouse ProductInWarehouse []
 }
 model Category {
   slug String @id @default(uuid()) @db.Uuid
   title String?
   product Product[]
 }
+model ProductInWarehouse {
+  id String @id @default(uuid()) @db.Uuid
+  product Product @relation(fields: [product_id], references: [sku])
+  product_id String
+  count Int
+  warhouse Warehouse @relation(fields: [warhouse_id],references: [uuid])
+  warhouse_id String
+
+}
 model Warehouse {
   uuid String @id @default(uuid()) @db.Uuid
   title String?
-  products Product[]
+  product ProductInWarehouse[]
 }
