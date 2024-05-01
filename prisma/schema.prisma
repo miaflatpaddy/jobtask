@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
@@ -15,21 +12,29 @@ datasource db {
 model Product {
   sku String @id @default(uuid()) @db.Uuid
   title String?
-  category Category[]
   inWarehouse ProductInWarehouse []
+  inCategory ProductInCatrgory[]
+}
+model ProductInCatrgory{
+  id String @id @default(uuid()) @db.Uuid
+  product Product @relation(fields: [product_id], references: [sku])
+  product_id String
+  category Category @relation(fields: [category_id],references: [slug])
+  category_id String
+
 }
 model Category {
   slug String @id @default(uuid()) @db.Uuid
   title String?
-  product Product[]
+  product ProductInCatrgory[]
 }
 model ProductInWarehouse {
   id String @id @default(uuid()) @db.Uuid
   product Product @relation(fields: [product_id], references: [sku])
   product_id String
   count Int
-  warhouse Warehouse @relation(fields: [warhouse_id],references: [uuid])
-  warhouse_id String
+  warehouse Warehouse @relation(fields: [warehouse_id],references: [uuid])
+  warehouse_id String
 
 }
 model Warehouse {
